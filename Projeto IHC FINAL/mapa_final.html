@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<header>
+<meta charset="utf-8">
+<title>PROJETO IHC</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="style2.css">
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+<script type="text/javascript" >
+var markersDataJson; 	
+   jQuery.ajaxSetup({async:false});
+	$.get("https://api.myjson.com/bins/1cq2u", function(data, status){
+		 markersDataJson = data;
+	});
+var map;
+var infoWindow;
+console.log(markersDataJson);
+
+
+var markersDataJson1; 	
+   jQuery.ajaxSetup({async:false});
+	$.get("https://api.myjson.com/bins/1jtha", function(data, status){
+		 markersDataJson1 = data;
+	});
+var map;
+var infoWindow;
+console.log(markersDataJson1);
+
+
+var markersDataJson2; 	
+   jQuery.ajaxSetup({async:false});
+	$.get("https://api.myjson.com/bins/2kgxa", function(data, status){
+		 markersDataJson2 = data;
+	});
+var map;
+var infoWindow;
+console.log(markersDataJson2);
+
+
+var markersDataJson3; 	
+   jQuery.ajaxSetup({async:false});
+	$.get("https://api.myjson.com/bins/2v6q6", function(data, status){
+		 markersDataJson3 = data;
+	});
+var map;
+var infoWindow;
+console.log(markersDataJson3);
+
+
+function initialize() {
+   var mapOptions = {
+      center: new google.maps.LatLng(40.601203,-8.668173),
+      zoom: 9,
+      mapTypeId: 'roadmap',
+   };
+   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+   infoWindow = new google.maps.InfoWindow();
+
+  
+   google.maps.event.addListener(map, 'click', function() {
+      infoWindow.close();
+   });
+
+  
+  
+    displayMarkers4();
+    displayMarkers();
+    displayMarkers3();
+    displayMarkers2();
+
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+function displayMarkers(){
+
+
+
+   var bounds = new google.maps.LatLngBounds();
+   
+
+   for (var i = 0; i < markersDataJson.length; i++){
+
+      var latlng = new google.maps.LatLng(markersDataJson[i].lat, markersDataJson[i].lng);
+      var nome = markersDataJson[i].nome;
+      var morada1 = markersDataJson[i].morada1;
+      var morada2 = markersDataJson[i].morada2;
+      var codPostal = markersDataJson[i].codPostal;
+	  var imagem = markersDataJson[i].imagem;
+
+      createMarker(latlng, nome, morada1, morada2, codPostal,imagem);
+
+
+
+
+      bounds.extend(latlng);  
+   }
+
+
+   map.fitBounds(bounds);
+}
+function displayMarkers2(){
+
+
+    var bounds = new google.maps.LatLngBounds();
+
+    for (var i = 0; i < markersDataJson1.length; i++){
+
+        var latlng = new google.maps.LatLng(markersDataJson1[i].lat, markersDataJson1[i].lng);
+        var nome = markersDataJson1[i].nome;
+        var morada1 = markersDataJson1[i].morada1;
+        var morada2 = markersDataJson1[i].morada2;
+        var codPostal = markersDataJson1[i].codPostal;
+		var imagem = markersDataJson1[i].imagem;
+
+
+        createMarker2(latlng, nome, morada1, morada2, codPostal,imagem);
+
+        bounds.extend(latlng);
+    }
+
+
+    map.fitBounds(bounds);
+}
+function displayMarkers3(){
+
+    var bounds = new google.maps.LatLngBounds();
+
+    for (var i = 0; i < markersDataJson2.length; i++){
+
+        var latlng = new google.maps.LatLng(markersDataJson2[i].lat, markersDataJson2[i].lng);
+        var nome = markersDataJson2[i].nome;
+        var morada1 = markersDataJson2[i].morada1;
+        var morada2 = markersDataJson2[i].morada2;
+        var codPostal = markersDataJson2[i].codPostal;
+		var imagem = markersDataJson2[i].imagem;
+
+
+        createMarker3(latlng, nome, morada1, morada2, codPostal,imagem);
+
+        bounds.extend(latlng);
+    }
+
+    map.fitBounds(bounds);
+}
+function displayMarkers4(){
+
+    var bounds = new google.maps.LatLngBounds();
+
+    for (var i = 0; i < markersDataJson3.length; i++){
+
+        var latlng = new google.maps.LatLng(markersDataJson3[i].lat, markersDataJson3[i].lng);
+        var nome = markersDataJson3[i].nome;
+        var morada1 = markersDataJson3[i].morada1;
+        var morada2 = markersDataJson3[i].morada2;
+        var codPostal = markersDataJson3[i].codPostal;
+		var imagem = markersDataJson3[i].imagem;
+
+
+        createMarker4(latlng, nome, morada1, morada2, codPostal,imagem);
+
+        bounds.extend(latlng);
+    }
+
+    map.fitBounds(bounds);
+}
+
+
+function createMarker(latlng, nome, morada1, morada2, codPostal,imagem,icon){
+   var tuaImagem = 'https://raw.githubusercontent.com/nata27junior/ProjetoIHC/master/marcadores%20png/map-marker-icon_34392.png';
+   var marker = new google.maps.Marker({
+       map: map,
+       position: latlng,
+       title: nome,
+       icon: tuaImagem,
+
+   });
+    google.maps.event.addListener(marker, 'click', function() {
+
+        var iwContent = '<div id="iw_container">' +
+            '<div class="iw_title">' + nome + '</div>' +
+            '<div class="iw_content">' + morada1 + '<br />' +
+            morada2 + '<br />' +
+            codPostal +'<br />'+ imagem + '</div></div>';
+
+
+        infoWindow.setContent(iwContent);
+
+
+        infoWindow.open(map, marker);
+    });
+
+}
+function createMarker2(latlng, nome, morada1, morada2, codPostal,imagem,icon){
+   var tuaImagem2 = 'https://raw.githubusercontent.com/nata27junior/ProjetoIHC/master/marcadores%20png/mapmarker_marker_outside_azure_23007.png';
+   var marker2 = new google.maps.Marker({
+       map: map,
+       position: latlng,
+       title: nome,
+       icon: tuaImagem2,
+
+        });
+
+
+
+        google.maps.event.addListener(marker2, 'click', function() {
+
+
+            var iwContent = '<div id="iw_container">' +
+                '<div class="iw_title">' + nome + '</div>' +
+                '<div class="iw_content">' + morada1 + '<br />' +
+                morada2 + '<br />' +
+				codPostal +'<br />'+ imagem + '</div></div>';
+
+
+            infoWindow.setContent(iwContent);
+
+
+            infoWindow.open(map, marker2);
+        });
+}
+function createMarker3(latlng, nome, morada1, morada2, codPostal,imagem,icon){
+    var tuaImagem3 = 'https://raw.githubusercontent.com/nata27junior/ProjetoIHC/master/marcadores%20png/mapmarker_marker_outside_chartreuse_23006.png';
+    var marker3 = new google.maps.Marker({
+        map: map,
+        position: latlng,
+        title: nome,
+        icon: tuaImagem3,
+
+    });
+
+
+
+    google.maps.event.addListener(marker3, 'click', function() {
+
+
+        var iwContent = '<div id="iw_container">' +
+            '<div class="iw_title">' + nome + '</div>' +
+            '<div class="iw_content">' + morada1 + '<br />' +
+            morada2 + '<br />' +
+            codPostal +'<br />'+ imagem + '</div></div>';
+
+
+        infoWindow.setContent(iwContent);
+
+
+        infoWindow.open(map, marker3);
+    });
+}
+function createMarker4(latlng, nome, morada1, morada2, codPostal,imagem,icon){
+    var tuaImagem4 = 'https://raw.githubusercontent.com/nata27junior/ProjetoIHC/master/marcadores%20png/MapMarker_Marker_Outside_Pink.png';
+    var marker4 = new google.maps.Marker({
+        map: map,
+        position: latlng,
+        title: nome,
+        icon: tuaImagem4,
+
+    });
+
+
+
+    google.maps.event.addListener(marker4, 'click', function() {
+
+
+        var iwContent = '<div id="iw_container">' +
+            '<div class="iw_title">' + nome + '</div>' +
+            '<div class="iw_content">' + morada1 + '<br />' +
+            morada2 + '<br />' +
+            codPostal +'<br />'+ imagem + '</div></div>';
+
+
+        infoWindow.setContent(iwContent);
+
+
+        infoWindow.open(map, marker4);
+    });
+}
+</script>
+<style>
+h1{
+font-family: "Arial Black";
+font-size: 25pt;
+color:blue ;
+text-shadow: black 3px 3px 3px;
+text-align: center;
+}
+h2{
+font-family: "Arial Black";
+font-size: 15pt;
+}
+h3{
+font-family: "Arial Black";
+font-size: 10pt;
+text-shadow: black 1px 1px 1px;
+text-align: center;
+}
+</style>
+
+<h1>Projeto IHC </h1>
+<h3>MAPA DE ACESSO A PONTOS DE SAÚDE </h3>
+<h2>LEGENDA : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HOSPITAL :&nbsp;&nbsp;&nbsp;&nbsp;<img width="20px" height="20px" src='https://raw.githubusercontent.com/nata27junior/ProjetoIHC/master/marcadores%20png/map-marker-icon_34392.png'>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLÍNICA PARTICULAR :&nbsp;&nbsp;<img width="20px" height="20px" src='https://raw.githubusercontent.com/nata27junior/ProjetoIHC/master/marcadores%20png/mapmarker_marker_outside_chartreuse_23006.png'>
+            &nbsp;&nbsp;&nbsp;&nbsp;UBS / UPA :&nbsp;&nbsp;&nbsp;&nbsp;<img width="20px" height="20px" src='https://raw.githubusercontent.com/nata27junior/ProjetoIHC/master/marcadores%20png/mapmarker_marker_outside_azure_23007.png'/>
+            &nbsp;&nbsp;&nbsp;&nbsp;AMBULATÓRIO :&nbsp;&nbsp;&nbsp;&nbsp;<img width="20px" height="20px" src='https://raw.githubusercontent.com/nata27junior/ProjetoIHC/master/marcadores%20png/MapMarker_Marker_Outside_Pink.png'/></h2>
+
+			</header>
+			</head>
+			<body>
+			<div id="map-canvas"/>
+			</body>
+			</html>
